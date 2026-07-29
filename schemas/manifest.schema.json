@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/JMick27/Vantage-Mods/schemas/manifest.schema.json",
+  "title": "Vantage validated profile manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "profiles"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "profiles": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "profileId", "source", "storeId", "version", "validated", "state",
+          "minimumVantageVersion", "releaseUrl", "profilePath", "payloadSha256"
+        ],
+        "properties": {
+          "profileId": { "type": "string", "pattern": "^[a-z0-9._-]{3,120}$" },
+          "source": { "enum": ["Steam", "Xbox"] },
+          "storeId": { "type": "string", "minLength": 1, "maxLength": 120 },
+          "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+          "validated": { "const": true },
+          "state": { "const": "active" },
+          "minimumVantageVersion": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+          "maximumVantageVersion": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+          "releaseUrl": { "type": "string", "pattern": "^https://github\\.com/JMick27/Vantage-Mods/releases/" },
+          "profilePath": { "type": "string", "pattern": "^profiles/(steam|xbox)/[^/]+/[0-9]+\\.[0-9]+\\.[0-9]+/profile\\.json$" },
+          "payloadSha256": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" }
+        }
+      }
+    }
+  }
+}

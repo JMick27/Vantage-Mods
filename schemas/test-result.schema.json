@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/JMick27/Vantage-Mods/schemas/test-result.schema.json",
+  "title": "Vantage hands-on profile test",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion", "candidateId", "candidateVersion", "testedAt", "result",
+    "checklist", "notes", "localValidationOnly", "repositoryReviewRequired", "checksum"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "candidateId": { "type": "string" },
+    "candidateVersion": { "type": "string" },
+    "testedAt": { "type": "integer", "minimum": 1 },
+    "result": { "const": "passed-local" },
+    "checklist": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "vrImage", "headTracking", "camera", "controls", "menus",
+        "performance", "safeExit", "offlineSinglePlayer"
+      ],
+      "properties": {
+        "vrImage": { "const": true },
+        "headTracking": { "const": true },
+        "camera": { "const": true },
+        "controls": { "const": true },
+        "menus": { "const": true },
+        "performance": { "const": true },
+        "safeExit": { "const": true },
+        "offlineSinglePlayer": { "const": true }
+      }
+    },
+    "notes": { "type": "string", "maxLength": 2000 },
+    "localValidationOnly": { "const": true },
+    "repositoryReviewRequired": { "const": true },
+    "checksum": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" }
+  }
+}
