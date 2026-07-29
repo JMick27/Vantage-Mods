@@ -117,6 +117,7 @@ def validate_profile(path: Path, entry: dict, errors: list[str]) -> None:
         "antiCheatDetected": False,
         "testedOffline": True,
         "automaticInjectionAllowed": False,
+        "antivirusStatus": "clean",
     }:
         errors.append(f"{relative} safety declaration is invalid")
     payload = profile.get("payload")

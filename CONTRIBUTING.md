@@ -18,5 +18,10 @@ Pull requests must state the tested game version, UEVR version, Vantage version,
 OpenXR transport/runtime family, GPU family, known limitations, and whether the test
 was single-player/offline.
 
+Vantage must record `antivirusStatus: clean` after Microsoft Defender scans the
+candidate bundle. A threat, timeout, scan failure, or unavailable scanner is not
+a clean result and must block submission. Antivirus scanning reduces risk but
+does not prove that a profile is harmless.
+
 Never include a Windows username, absolute path, API key, token, private key, email
 address, raw crash log, or hardware serial number.
