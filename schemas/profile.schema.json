@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/JMick27/Vantage-Mods/schemas/profile.schema.json",
+  "title": "Vantage UEVR profile",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion", "profileId", "source", "storeId", "gameTitle", "version",
+    "adapter", "state", "validated", "minimumVantageVersion", "payload",
+    "safety", "provenance", "knownLimitations"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "profileId": { "type": "string", "pattern": "^[a-z0-9._-]{3,120}$" },
+    "source": { "enum": ["Steam", "Xbox"] },
+    "storeId": { "type": "string", "minLength": 1, "maxLength": 120 },
+    "gameTitle": { "type": "string", "minLength": 1, "maxLength": 200 },
+    "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+    "adapter": { "const": "uevr" },
+    "state": { "enum": ["active", "superseded"] },
+    "validated": { "type": "boolean" },
+    "minimumVantageVersion": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+    "maximumVantageVersion": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+    "payload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "format"],
+      "properties": {
+        "path": { "const": "config.txt" },
+        "sha256": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+        "format": { "const": "uevr-config-txt" }
+      }
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["antiCheatDetected", "testedOffline", "automaticInjectionAllowed"],
+      "properties": {
+        "antiCheatDetected": { "const": false },
+        "testedOffline": { "const": true },
+        "automaticInjectionAllowed": { "const": false }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["vantageVersion", "uevrVersion", "testedAt", "humanValidated"],
+      "properties": {
+        "vantageVersion": { "type": "string" },
+        "uevrVersion": { "type": "string" },
+        "testedAt": { "type": "integer", "minimum": 1 },
+        "humanValidated": { "const": true }
+      }
+    },
+    "knownLimitations": {
+      "type": "array",
+      "maxItems": 30,
+      "items": { "type": "string", "maxLength": 500 }
+    }
+  }
+}
