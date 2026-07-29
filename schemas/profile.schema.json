@@ -17,7 +17,7 @@
     "gameTitle": { "type": "string", "minLength": 1, "maxLength": 200 },
     "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
     "adapter": { "const": "uevr" },
-    "state": { "enum": ["active", "superseded"] },
+    "state": { "enum": ["pending-review", "active", "superseded"] },
     "validated": { "type": "boolean" },
     "minimumVantageVersion": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
     "maximumVantageVersion": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
@@ -49,7 +49,8 @@
         "vantageVersion": { "type": "string" },
         "uevrVersion": { "type": "string" },
         "testedAt": { "type": "integer", "minimum": 1 },
-        "humanValidated": { "const": true }
+        "humanValidated": { "const": true },
+        "candidateVersion": { "type": "string", "maxLength": 80 }
       }
     },
     "knownLimitations": {
