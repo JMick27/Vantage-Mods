@@ -34,11 +34,15 @@
     "safety": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["antiCheatDetected", "testedOffline", "automaticInjectionAllowed"],
+      "required": [
+        "antiCheatDetected", "testedOffline", "automaticInjectionAllowed",
+        "antivirusStatus"
+      ],
       "properties": {
         "antiCheatDetected": { "const": false },
         "testedOffline": { "const": true },
-        "automaticInjectionAllowed": { "const": false }
+        "automaticInjectionAllowed": { "const": false },
+        "antivirusStatus": { "const": "clean" }
       }
     },
     "provenance": {
