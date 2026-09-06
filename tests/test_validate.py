@@ -24,6 +24,11 @@ class RepositoryValidationTests(unittest.TestCase):
         self.assertEqual(manifest["schemaVersion"], 1)
         self.assertIsInstance(manifest["profiles"], list)
 
+    def test_runtime_catalog_is_schema_version_one(self):
+        catalog = json.loads((ROOT / "runtime-catalog.json").read_text(encoding="utf-8"))
+        self.assertEqual(catalog["schemaVersion"], 1)
+        self.assertIsInstance(catalog["runtimes"], list)
+
 
 if __name__ == "__main__":
     unittest.main()
