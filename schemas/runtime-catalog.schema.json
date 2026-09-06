@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Vantage engine runtime catalog",
+  "type": "object",
+  "required": ["schemaVersion", "catalogState", "runtimes"],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "catalogState": { "enum": ["bootstrap", "active"] },
+    "runtimes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["runtimeId", "engine", "version", "architecture", "minimumVantageVersion", "state", "packageUrl", "sha256", "entryPoint"],
+        "properties": {
+          "runtimeId": { "type": "string", "pattern": "^[A-Za-z0-9._-]+$" },
+          "engine": { "enum": ["unreal", "unity-mono", "unity-il2cpp"] },
+          "version": { "type": "string", "pattern": "^[0-9]+(\\.[0-9]+){0,3}$" },
+          "architecture": { "const": "x64" },
+          "minimumVantageVersion": { "type": "string", "pattern": "^[0-9]+(\\.[0-9]+){0,3}$" },
+          "state": { "enum": ["active", "superseded", "blocked"] },
+          "packageUrl": { "type": "string", "format": "uri", "pattern": "^https://github\\.com/" },
+          "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+          "entryPoint": { "type": "string", "pattern": "^[^/\\\\].*\\.(dll|wasm)$" }
+        }
+      }
+    }
+  }
+}
