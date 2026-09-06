@@ -34,6 +34,7 @@ def load_json(path: Path) -> dict:
 
 def validate_repository() -> list[str]:
     errors: list[str] = []
+    validate_runtime_catalog(errors)
     manifest = load_json(ROOT / "manifest.json")
     if set(manifest) != {"schemaVersion", "profiles"} or manifest.get("schemaVersion") != 1:
         errors.append("manifest.json must contain only schemaVersion 1 and profiles")
@@ -78,6 +79,38 @@ def validate_repository() -> list[str]:
             errors.append(f"{relative} is active and validated but missing from manifest.json")
     scan_repository_text(errors)
     return errors
+
+
+def validate_runtime_catalog(errors: list[str]) -> None:
+    catalog = load_json(ROOT / "runtime-catalog.json")
+    if set(catalog) != {"schemaVersion", "catalogState", "runtimes"} or catalog.get("schemaVersion") != 1:
+        errors.append("runtime-catalog.json has an invalid top-level structure")
+        return
+    if catalog.get("catalogState") not in {"bootstrap", "active"} or not isinstance(catalog.get("runtimes"), list):
+        errors.append("runtime-catalog.json state or runtimes is invalid")
+        return
+    ids: set[str] = set()
+    required = {"runtimeId", "engine", "version", "architecture", "minimumVantageVersion", "state", "packageUrl", "sha256", "entryPoint"}
+    for index, runtime in enumerate(catalog["runtimes"]):
+        prefix = f"runtime-catalog runtimes[{index}]"
+        if not isinstance(runtime, dict) or set(runtime) != required:
+            errors.append(f"{prefix} has missing or unknown fields")
+            continue
+        if runtime["runtimeId"] in ids:
+            errors.append(f"{prefix} duplicates a runtime ID")
+        ids.add(runtime["runtimeId"])
+        if runtime["engine"] not in {"unreal", "unity-mono", "unity-il2cpp"} or runtime["architecture"] != "x64":
+            errors.append(f"{prefix} has an unsupported engine or architecture")
+        if runtime["state"] not in {"active", "superseded", "blocked"}:
+            errors.append(f"{prefix} has an invalid state")
+        if not SEMVER.fullmatch(runtime["version"]) or not SEMVER.fullmatch(runtime["minimumVantageVersion"]):
+            errors.append(f"{prefix} contains an invalid semantic version")
+        if not re.fullmatch(r"[0-9a-f]{64}", runtime["sha256"]):
+            errors.append(f"{prefix} has an invalid SHA-256 digest")
+        if not re.fullmatch(r"https://github\.com/JMick27/Vantage-Mods/releases/download/[^/]+/[^/]+\.zip", runtime["packageUrl"]):
+            errors.append(f"{prefix} package URL is not an immutable Vantage-Mods release ZIP")
+        if Path(runtime["entryPoint"]).is_absolute() or ".." in Path(runtime["entryPoint"]).parts or not runtime["entryPoint"].endswith((".dll", ".wasm")):
+            errors.append(f"{prefix} entry point is unsafe")
 
 
 def safe_repo_path(value: str, errors: list[str], prefix: str) -> Path | None:

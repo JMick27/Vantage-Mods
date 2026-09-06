@@ -1,5 +1,17 @@
 {
   "schemaVersion": 1,
-  "catalogState": "bootstrap",
-  "runtimes": []
+  "catalogState": "active",
+  "runtimes": [
+    {
+      "runtimeId": "vantage-unreal",
+      "engine": "unreal",
+      "version": "0.1.0",
+      "architecture": "x64",
+      "minimumVantageVersion": "0.5.2",
+      "state": "active",
+      "packageUrl": "https://github.com/JMick27/Vantage-Mods/releases/download/runtime-unreal-0.1.0/Vantage-Unreal-Runtime-0.1.0.zip",
+      "sha256": "8d0ffc3a5251e7fe2f2180e47562f5722be15a2c1de5b30a5340ee36bfc2e8c3",
+      "entryPoint": "runtime/Vantage.Unreal.dll"
+    }
+  ]
 }
