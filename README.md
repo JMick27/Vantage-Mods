@@ -6,6 +6,13 @@ This repository stores declarative configuration and compatibility evidence only
 It must never contain game binaries, copyrighted assets, saves, personal paths,
 credentials, raw logs, unreviewed executable code, or redistributed third-party tools.
 
+`runtime-catalog.json` is the review-gated index for Vantage-authored engine runtime
+packages. Runtime binaries belong in immutable GitHub releases, never normal Git
+history. Every active entry requires an exact SHA-256 digest, architecture, minimum
+Vantage version, and package entry point. The desktop app downloads these packages
+only on demand, verifies the hash and archive paths, scans them with Microsoft
+Defender, and caches them outside the application installation.
+
 ## Profile lifecycle
 
 1. Vantage creates an immutable local candidate.
