@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "runtimeId": "vantage-unreal",
+  "version": "0.1.0",
+  "engine": "unreal",
+  "architecture": "x64",
+  "abiVersion": 1,
+  "state": "foundation-only",
+  "capabilities": {
+    "moduleContractValidation": true,
+    "gameDiscovery": false,
+    "stereoRendering": false,
+    "headTracking": false,
+    "motionControls": false,
+    "uiConversion": false
+  }
+}
